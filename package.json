@@ -1,0 +1,26 @@
+{
+  "name": "@ripter/domlens",
+  "version": "1.0.0",
+  "description": "Update the DOM with CSS selectors",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ripter/DOMLens.git"
+  },
+  "author": "Chris Richards (https://github.com/ripter)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ripter/DOMLens/issues"
+  },
+  "homepage": "https://github.com/ripter/DOMLens#readme",
+  "dependencies": {
+    "mocha": "^3.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "expect.js": "^0.3.1"
+  }
+}
