@@ -2,12 +2,9 @@ const expect = require('expect.js');
 const updateAttributes = require('./updateAttributes.js');
 
 describe('updateAttributes', () => {
-  let rules, node, index, nodeList;
+  let node, index, nodeList;
 
   beforeEach(() => {
-    rules = {
-      '#app': {state: 'testing'},
-    };
     nodeList = [
       {id: 'one'}, {id: 'two'},
     ];
@@ -20,23 +17,27 @@ describe('updateAttributes', () => {
     expect(node.goodDog).to.eql('Rose');
   });
 
-  it('attributes value can be a function', () => {
-    updateAttributes({
-      goodDog: () => 'Rose is a Good Dog'
-    }, node);
-    expect(node.goodDog).to.eql('Rose is a Good Dog');
-  });
+  describe('attribute value as a function', () => {
+    it('calls function to set value', () => {
+      updateAttributes({
+        goodDog: () => 'Rose is a Good Dog',
+      }, node);
+      expect(node.goodDog).to.eql('Rose is a Good Dog');
+    });
 
-  it('passes "this" to attribute function', () => {
-    const context = {name: 'Rose' };
-    updateAttributes.call(context, {
-      // Can't use arrow syntax if we want to set this/context
-      goodDog: function() {
-        return `a pup named ${this.name}`;
-      }
-    }, node);
-    expect(node.goodDog).to.eql('a pup named Rose');
-  });
+    it('passes "this" to function', () => {
+      const context = {name: 'Rose' };
+      updateAttributes.call(context, {
+        // Can't use arrow syntax if we want to set this/context
+        goodDog: function() {
+          return `a pup named ${this.name}`;
+        },
+      }, node);
+      expect(node.goodDog).to.eql('a pup named Rose');
+    });
+
+  }); // attribute value as a function
+
 
   // test EventTarget API
   describe('onEvent attributes', () => {
@@ -53,10 +54,24 @@ describe('updateAttributes', () => {
         // success if called
         expect(type).to.eql('click');
         done();
-      }
+      };
       // call it with context like domLens would.
       updateAttributes.call(context, {
         onclick: () => true,
+      }, node);
+    });
+
+    it('sets this value on callback', (done) => {
+      node.addEventListener = (type, callback) => {
+        callback();
+      };
+      // call it with context like domLens would.
+      updateAttributes.call(context, {
+        onclick: function() {
+          // test if the callback is bound to context
+          expect(this.isTesting).to.eql(true);
+          done();
+        },
       }, node);
     });
 
