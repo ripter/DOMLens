@@ -1,10 +1,13 @@
-.PHONY: all lint test
-NODE_BIN=$(shell npm bin)
+.PHONY: all lint test docs
+NPM_BIN=$(shell npm bin)
 
 all: test
 
 test: lint
-	$(NODE_BIN)/mocha src/**/*.test.js
+	$(NPM_BIN)/mocha src/**/*.test.js
 
 lint:
-	$(NODE_BIN)/eslint src/
+	$(NPM_BIN)/eslint src/
+
+docs:
+	${NPM_BIN}/jsdoc2md --files src/**/*.js > docs/README.md

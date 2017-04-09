@@ -17,10 +17,11 @@
   },
   "homepage": "https://github.com/ripter/DOMLens#readme",
   "dependencies": {
-    "mocha": "^3.2.0"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
-    "expect.js": "^0.3.1"
+    "expect.js": "^0.3.1",
+    "jsdoc-to-markdown": "^3.0.0",
+    "mocha": "^3.2.0"
   }
 }
