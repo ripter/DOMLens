@@ -38,17 +38,46 @@ describe('updateAttributes', () => {
     expect(node.goodDog).to.eql('a pup named Rose');
   });
 
+  // test EventTarget API
   describe('onEvent attributes', () => {
+    let context;
+    beforeEach(() => {
+      context = {
+        isTesting: true,
+      };
+      node.addEventListener = () => false;
+    });
+
     it('binds the event', (done) => {
       node.addEventListener = (type) => {
         // success if called
         expect(type).to.eql('click');
         done();
       }
-      // call it
-      updateAttributes({
+      // call it with context like domLens would.
+      updateAttributes.call(context, {
         onclick: () => true,
       }, node);
     });
-  });
+
+    it('creates context._unbindEvents', () => {
+      // call it with context like domLens would.
+      updateAttributes.call(context, {
+        onclick: () => true,
+      }, node);
+
+      expect(context._unbindEvents).to.be.a('function');
+    });
+
+    it('triggers context._unbindEvents', (done) => {
+      // pretend there is an existing unbind function.
+      context._unbindEvents = () => {
+        done();
+      };
+      // call it with context like domLens would.
+      updateAttributes.call(context, {
+        onclick: () => true,
+      }, node);
+    });
+  }); // onEvent attributes
 });

@@ -1,3 +1,4 @@
+// use [EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget)
 const bindEvent = require('@ripter/bindevent/src/bind.dom.js');
 
 /**
@@ -6,6 +7,7 @@ const bindEvent = require('@ripter/bindevent/src/bind.dom.js');
  * @param {Node} node - the node matched by the rule.
  * @param {Number} index - the node's index in the nodeList.
  * @param {NodeList} nodeList - the nodeList returned from the rule.
+ * @this - this._unbindEvents is set to a function that will unbind any events set.
  * @module domLens
  */
 function updateAttributes(attributes, node, index, nodeList) {
@@ -13,6 +15,7 @@ function updateAttributes(attributes, node, index, nodeList) {
     const attrValue = attributes[attrName];
     const isCallback = typeof attrValue === 'function';
     const isEvent = attrName.match(/on(\w+)/);
+    const hasEvents = typeof this._unbindEvents === 'function';
 
     // If the value is not a function, just set it and move on.
     if (!isCallback) {
@@ -22,7 +25,10 @@ function updateAttributes(attributes, node, index, nodeList) {
 
     // if it is an event with callback
     if (isEvent && isCallback) {
-      bindEvent(node, isEvent[1], attrValue);
+      if (hasEvents) {
+        this._unbindEvents();
+      }
+      this._unbindEvents = bindEvent(node, isEvent[1].toLocaleLowerCase(), attrValue);
       return;
     }
 
