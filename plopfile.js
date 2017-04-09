@@ -11,12 +11,12 @@ module.exports = ( plop ) => {
 
     actions: [{
       type: 'add',
-      path: 'src/{{kebabCase name}}.js',
+      path: 'src/{{camelCase name}}.js',
       templateFile: 'plop-templates/forEach.js',
     },
     {
       type: 'add',
-      path: 'src/{{kebabCase name}}.test.js',
+      path: 'src/{{camelCase name}}.test.js',
       templateFile: 'plop-templates/forEach.test.js',
     }],
 

@@ -1,5 +1,5 @@
-import expect from 'expect.js';
-import {{camelCase}} from './{{camelCase name}}.js';
+const expect = require('expect.js');
+const {{camelCase name}} = require('./{{camelCase name}}.js');
 
 describe('{{camelCase name}}', () => {
   let rules, node, index, nodeList;
@@ -13,5 +13,5 @@ describe('{{camelCase name}}', () => {
     ];
   });
 
-  
+
 });

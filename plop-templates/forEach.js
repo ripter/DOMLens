@@ -6,6 +6,8 @@
  * @param {NodeList} nodeList - the nodeList returned from the rule.
  * @module domLens
  */
-export default function {{camelCase name}}(ruleValue, node, index, nodeList) {
+function {{camelCase name}}(ruleValue, node, index, nodeList) {
 
 }
+
+module.exports = {{camelCase name}};
