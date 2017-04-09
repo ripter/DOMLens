@@ -15,8 +15,40 @@ describe('updateAttributes', () => {
     node = nodeList[index];
   });
 
-  it('sets rule value key:value on node', () => {
-    updateAttributes({state: 'testing'}, node);
-    expect(node.state).to.eql('testing');
+  it('sets node[key] = value', () => {
+    updateAttributes({goodDog: 'Rose'}, node);
+    expect(node.goodDog).to.eql('Rose');
+  });
+
+  it('attributes value can be a function', () => {
+    updateAttributes({
+      goodDog: () => 'Rose is a Good Dog'
+    }, node);
+    expect(node.goodDog).to.eql('Rose is a Good Dog');
+  });
+
+  it('passes "this" to attribute function', () => {
+    const context = {name: 'Rose' };
+    updateAttributes.call(context, {
+      // Can't use arrow syntax if we want to set this/context
+      goodDog: function() {
+        return `a pup named ${this.name}`;
+      }
+    }, node);
+    expect(node.goodDog).to.eql('a pup named Rose');
+  });
+
+  describe('onEvent attributes', () => {
+    it('binds the event', (done) => {
+      node.addEventListener = (type) => {
+        // success if called
+        expect(type).to.eql('click');
+        done();
+      }
+      // call it
+      updateAttributes({
+        onclick: () => true,
+      }, node);
+    });
   });
 });
