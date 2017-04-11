@@ -3,42 +3,37 @@ const domLens = require('./domLens.js');
 
 describe('domLens', () => {
   beforeEach(() => {
-    // Mock the DOM API we use
-    global.document = {
-      querySelectorAll: () => ['one'],
-    };
-  });
-  afterEach(() => {
-    // clean up our mock
-    delete global.document;
+    document.body.innerHTML = `
+    <div id="app"></div>
+    `;
   });
 
   it('forEach context is set', (done) => {
-    domLens({ 'div': 1 }, function() {
+    domLens(function() {
       // eslint-disable-next-line no-invalid-this
       expect(this).to.eql({state: 'data'});
       done();
-    }, {state: 'data'});
+    }, { 'div': 1 }, {state: 'data'});
   });
 
   it('forEach value is the rule value', (done) => {
-    domLens({'#app': {test: 'mocha'}}, function(value) {
+    domLens(function(value) {
       expect(value).to.eql({test: 'mocha'});
       done();
-    });
+    }, {'#app': {test: 'mocha'}});
   });
 
   it('forEach element argument', (done) => {
-    domLens({'#app': {test: 'mocha'}}, function(value, element) {
-      expect(element).to.eql('one');
+    domLens(function(value, element) {
+      expect(element.outerHTML).to.eql('<div id="app"></div>');
       done();
-    });
+    }, {'#app': {test: 'mocha'}});
   });
 
   it('forEach index argument', (done) => {
-    domLens({'#app': {test: 'mocha'}}, function(value, element, index) {
+    domLens(function(value, element, index) {
       expect(index).to.eql(0);
       done();
-    });
+    }, {'#app': {test: 'mocha'}});
   });
 });

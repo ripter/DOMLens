@@ -1,3 +1,8 @@
+const domLens = require('./domLens.js');
+const updateAttributes = require('./updateAttributes.js');
+
+// Default to the updateAttributes rules
+module.exports = domLens.bind(null, updateAttributes);
 
 /**
  * Creates a lens on the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)

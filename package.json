@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/ripter/DOMLens#readme",
   "dependencies": {
-    "@ripter/bindevent": "^1.0.0"
+    "@ripter/bindevent": "^1.0.0",
+    "jsdom": "^9.12.0",
+    "jsdom-global": "^2.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.24.1",
