@@ -16,7 +16,7 @@ function domLens(forEach, rules, context) {
 
     // skip selectors that do not match
     if (elements.length === 0) { return; }
-
+    // call the forEach function bound to context and rule value.
     elements.forEach(forEach.bind(context, value));
   });
 }

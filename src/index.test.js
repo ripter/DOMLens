@@ -2,7 +2,7 @@ const expect = require('expect.js');
 const domLens = require('./index.js');
 
 describe('updateAttributes', () => {
-  let rules, context;
+  let rules, state;
 
   beforeEach(() => {
     document.body.innerHTML = `
@@ -13,15 +13,14 @@ describe('updateAttributes', () => {
     rules = {
       '.cell': {
         className: 'cell --did-render',
-        onclick: () => {},
-      }
+      },
     };
-    context = {};
+    state = {};
   });
 
   it('example', () => {
     // update the dom
-    domLens(rules, context);
+    domLens(rules, state);
     // test that it was updated
     const nodeList = document.querySelectorAll('.cell');
     expect(nodeList.length).to.eql(2);
