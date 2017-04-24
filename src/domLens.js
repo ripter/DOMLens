@@ -12,12 +12,12 @@ function domLens(forEach, rules, context) {
   // loop over all the rules
   Object.keys(rules).forEach((selector) => {
     const elements = document.querySelectorAll(selector);
-    const value = rules[selector];
+    const rule = rules[selector];
 
     // skip selectors that do not match
     if (elements.length === 0) { return; }
     // call the forEach function bound to context and rule value.
-    elements.forEach(forEach.bind(context, value));
+    elements.forEach(forEach.bind(context, rule));
   });
 }
 

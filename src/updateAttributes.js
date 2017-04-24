@@ -1,5 +1,6 @@
 // use [EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget)
 const bindEvent = require('@ripter/bindevent/src/bind.dom.js');
+const UNBIND = Symbol('unbind');
 
 /**
  * Updates node's attributes with the values from attribtues.
@@ -14,15 +15,18 @@ const bindEvent = require('@ripter/bindevent/src/bind.dom.js');
  * @param {Node} node - the node matched by the rule.
  * @param {Number} index - the node's index in the nodeList.
  * @param {NodeList} nodeList - the nodeList returned from the rule.
- * @this this._unbindEvents is set to a function that will unbind any events set.
  * @name updateAttributes
  */
-function updateAttributes(attributes, node) {
+function updateAttributes(attributes, node, index, nodeList) {
+  // unbind any existing event listeners before we bind the new ones.
+  if (typeof node[UNBIND] === 'function') {
+    node[UNBIND]();
+  }
+
   Object.keys(attributes).forEach((attrName) => {
     const attrValue = attributes[attrName];
     const isCallback = typeof attrValue === 'function';
     const isEvent = attrName.match(/on(\w+)/);
-    const hasEvents = typeof this._unbindEvents === 'function';
     let callback;
 
     // If the value is not a function, just set it and move on.
@@ -31,20 +35,21 @@ function updateAttributes(attributes, node) {
       return;
     }
 
-    // bind the function context
+    // bind the function context.
+    // eslint-disable-next-line no-invalid-this
     callback = attrValue.bind(this);
 
     // if it is an event with callback
     if (isEvent && isCallback) {
-      if (hasEvents) {
-        this._unbindEvents();
-      }
-      this._unbindEvents = bindEvent(node, isEvent[1].toLocaleLowerCase(), callback);
+      // bind the event handler. save the unbind method on the node.
+      node[UNBIND] = bindEvent(node, isEvent[1].toLocaleLowerCase(), (evt) => {
+        callback(evt, node, index, nodeList);
+      });
       return;
     }
-
+    // Not an event
     // set the value to the result of the attribute function
-    node[attrName] = callback();
+    node[attrName] = callback(node, index, nodeList);
   });
 }
 

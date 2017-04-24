@@ -2,14 +2,13 @@ const expect = require('expect.js');
 const updateAttributes = require('./updateAttributes.js');
 
 describe('updateAttributes', () => {
-  let node, index, nodeList;
+  let node, nodeList;
 
   beforeEach(() => {
     nodeList = [
       {id: 'one'}, {id: 'two'},
     ];
-    index = 0;
-    node = nodeList[index];
+    node = nodeList[0];
   });
 
   it('sets node[key] = value', () => {
@@ -36,8 +35,36 @@ describe('updateAttributes', () => {
       expect(node.goodDog).to.eql('a pup named Rose');
     });
 
-  }); // attribute value as a function
+    describe('callback parameters', () => {
+      it('(node)', (done) => {
+        updateAttributes({
+          goodDog: function(element) {
+            expect(element).to.eql(node);
+            done();
+          },
+        }, node);
+      });
 
+      it('(_, index)', (done) => {
+        updateAttributes({
+          goodDog: function(element, index) {
+            expect(index).to.eql(0);
+            done();
+          },
+        }, node, 0);
+      });
+
+      it('(_, _, array)', (done) => {
+        updateAttributes({
+          goodDog: function(element, index, array) {
+            expect(array).to.eql(nodeList);
+            done();
+          },
+        }, node, 0, nodeList);
+      });
+    });
+
+  }); // attribute value as a function
 
   // test EventTarget API
   describe('onEvent attributes', () => {
@@ -46,10 +73,17 @@ describe('updateAttributes', () => {
       context = {
         isTesting: true,
       };
-      node.addEventListener = () => false;
+      node.addEventListener = function(eventName, callback) {
+        // mock the api
+        node[eventName] = callback.bind(node, {
+          type: 'mockEvent',
+        });
+      };
     });
 
     it('binds the event', (done) => {
+      // test that it called the dom API
+      // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
       node.addEventListener = (type) => {
         // success if called
         expect(type).to.eql('click');
@@ -75,24 +109,72 @@ describe('updateAttributes', () => {
       }, node);
     });
 
-    it('creates context._unbindEvents', () => {
-      // call it with context like domLens would.
-      updateAttributes.call(context, {
-        onclick: () => true,
-      }, node);
-
-      expect(context._unbindEvents).to.be.a('function');
-    });
-
-    it('triggers context._unbindEvents', (done) => {
-      // pretend there is an existing unbind function.
-      context._unbindEvents = () => {
+    it('unbinds event', (done) => {
+      // test that it calls the dom API
+      // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener
+      node.removeEventListener = function() {
         done();
       };
-      // call it with context like domLens would.
-      updateAttributes.call(context, {
-        onclick: () => true,
+
+      // call it once to set the event
+      updateAttributes({
+        onclick: () => {
+          expect().to.fail('The old event should be removed');
+          done();
+        },
       }, node);
+
+      // call it again to remove the event
+      updateAttributes({}, node);
     });
+
+    describe('callback parameters', () => {
+      it('(event)', (done) => {
+        updateAttributes({
+          onclick: function(event) {
+            expect(event).to.eql({
+              type: 'mockEvent',
+            });
+            done();
+          },
+        }, node);
+        // trigger the event
+        node.click();
+      });
+
+      it('(_, node)', (done) => {
+        updateAttributes({
+          onclick: function(event, element) {
+            expect(element).to.eql(node);
+            done();
+          },
+        }, node);
+        // trigger the event
+        node.click();
+      });
+
+      it('(_, _, index)', (done) => {
+        updateAttributes({
+          onclick: function(event, element, index) {
+            expect(index).to.eql(0);
+            done();
+          },
+        }, node, 0);
+        // trigger the event
+        node.click();
+      });
+
+      it('(_, _, _, array)', (done) => {
+        updateAttributes({
+          onclick: function(event, element, index, array) {
+            expect(array).to.eql(nodeList);
+            done();
+          },
+        }, node, 0, nodeList);
+        // trigger the event
+        node.click();
+      });
+    });
+
   }); // onEvent attributes
 });
