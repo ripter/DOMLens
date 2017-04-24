@@ -2,7 +2,8 @@
 
 <dl>
 <dt><a href="#module_domLens">domLens</a></dt>
-<dd><p>Acts as a lens that matches a <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList">NodeList</a> with a context.</p>
+<dd><p>Acts as a lens that matches a <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList">NodeList</a> with a context.
+Loops over rules document.querySelectorAll the key.</p>
 </dd>
 </dl>
 
@@ -18,12 +19,13 @@
 
 ## domLens
 Acts as a lens that matches a [NodeList](https://developer.mozilla.org/en-US/docs/Web/API/NodeList) with a context.
+Loops over rules document.querySelectorAll the key.
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| rules | <code>Object</code> | Key is CSS Selector, Value is passed into the forEach with context. |
 | forEach | <code>function</code> | A forEach callback function. It will be invoked for every Node matched in every rule. |
+| rules | <code>Object</code> | Key is CSS Selector, Value is passed into the forEach with context. |
 | context | <code>Object</code> | set as the `this` context in the forEach callback. |
 
 <a name="updateAttributes"></a>
@@ -32,7 +34,6 @@ Acts as a lens that matches a [NodeList](https://developer.mozilla.org/en-US/doc
 Updates node's attributes with the values from attribtues.
 
 **Kind**: global variable  
-**this**: <code>this._unbindEvents</code>  
 **Example:**: domLens({
    '.cell': {
      // keys are Node attributes (including events), values are anything (including functions).
