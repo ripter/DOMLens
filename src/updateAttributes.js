@@ -18,6 +18,7 @@ const UNBIND = Symbol('unbind');
  * @name updateAttributes
  */
 function updateAttributes(attributes, node, index, nodeList) {
+  //TODO: Only unbind listeners that are dead/replaced. Don't unbind if the listener hasn't changed.
   // unbind any existing event listeners before we bind the new ones.
   if (typeof node[UNBIND] === 'function') {
     node[UNBIND]();
@@ -41,6 +42,7 @@ function updateAttributes(attributes, node, index, nodeList) {
 
     // if it is an event with callback
     if (isEvent && isCallback) {
+      //TODO: Don't re-bind on every update. Only bind the first time.
       // bind the event handler. save the unbind method on the node.
       node[UNBIND] = bindEvent(node, isEvent[1].toLocaleLowerCase(), (evt) => {
         callback(evt, node, index, nodeList);
