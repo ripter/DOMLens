@@ -1,4 +1,4 @@
-.PHONY: all lint test test.only docs
+.PHONY: all lint test test.only docs clean
 NPM_BIN=$(shell npm bin)
 
 all: test docs
@@ -19,5 +19,11 @@ plop: node_modules/
 	$(NPM_BIN)/plop
 
 node_modules/: package.json
-	yarn install
+	npm install
 	touch node_modules/
+
+clean:
+	-rm -rf ./node_modules
+	-rm package-lock.json
+	-rm yarn.lock
+	-rm yarn-error.log

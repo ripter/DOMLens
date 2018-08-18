@@ -1,6 +1,6 @@
 {
   "name": "@ripter/domlens",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Update the DOM with CSS selectors",
   "main": "src/index.js",
   "scripts": {
@@ -20,14 +20,14 @@
     "@ripter/bindevent": "^1.0.0"
   },
   "devDependencies": {
-    "babel-core": "^6.24.1",
-    "babel-register": "^6.24.1",
+    "babel-core": "^6.26.3",
+    "babel-register": "^6.26.0",
     "eslint": "^3.19.0",
     "expect.js": "^0.3.1",
     "jsdoc-to-markdown": "^3.0.0",
-    "mocha": "^3.2.0",
-    "plop": "^1.7.4",
     "jsdom": "^9.12.0",
-    "jsdom-global": "^2.1.1"
+    "jsdom-global": "^2.1.1",
+    "mocha": "^5.2.0",
+    "plop": "^1.7.4"
   }
 }

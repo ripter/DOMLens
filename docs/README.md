@@ -15,6 +15,14 @@ Loops over rules document.querySelectorAll the key.</p>
 </dd>
 </dl>
 
+## Functions
+
+<dl>
+<dt><a href="#updateFunction">updateFunction(callback, node, index, nodeList)</a> : <code>forEach</code></dt>
+<dd><p>Run a function for every matched element.</p>
+</dd>
+</dl>
+
 <a name="module_domLens"></a>
 
 ## domLens
@@ -44,6 +52,20 @@ Updates node's attributes with the values from attribtues.
 | Param | Type | Description |
 | --- | --- | --- |
 | attributes | <code>Object</code> | and object of attributes and values to set on the node. |
+| node | <code>Node</code> | the node matched by the rule. |
+| index | <code>Number</code> | the node's index in the nodeList. |
+| nodeList | <code>NodeList</code> | the nodeList returned from the rule. |
+
+<a name="updateFunction"></a>
+
+## updateFunction(callback, node, index, nodeList) : <code>forEach</code>
+Run a function for every matched element.
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| callback | <code>function</code> | function to invoke with the element. |
 | node | <code>Node</code> | the node matched by the rule. |
 | index | <code>Number</code> | the node's index in the nodeList. |
 | nodeList | <code>NodeList</code> | the nodeList returned from the rule. |

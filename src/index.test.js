@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const domLens = require('./index.js');
+const { lensAttribute } = require('./index.js');
 
 describe('updateAttributes', () => {
   let rules, state;
@@ -20,7 +20,7 @@ describe('updateAttributes', () => {
 
   it('example', () => {
     // update the dom
-    domLens(rules, state);
+    lensAttribute(rules, state);
     // test that it was updated
     const nodeList = document.querySelectorAll('.cell');
     expect(nodeList.length).to.eql(2);
