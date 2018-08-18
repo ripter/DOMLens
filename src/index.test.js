@@ -1,7 +1,7 @@
 const expect = require('expect.js');
 const { lensAttribute } = require('./index.js');
 
-describe('updateAttributes', () => {
+describe('lensAttribute', () => {
   let rules, state;
 
   beforeEach(() => {

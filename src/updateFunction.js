@@ -1,5 +1,3 @@
-const domLens = require('./domLens.js');
-
 /**
  * Run a function for every matched element.
  * @type forEach
@@ -11,8 +9,4 @@ const domLens = require('./domLens.js');
 function updateFunction(callback, node, index, nodeList) {
   callback(node, index, nodeList);
 }
-
-module.exports = {
-  domLens: domLens.bind(null, updateFunction),
-  updateFunction,
-};
+module.exports = updateFunction;

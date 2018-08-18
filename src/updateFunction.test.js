@@ -1,5 +1,5 @@
 const expect = require('expect.js');
-const { updateFunction } = require('./updateFunction.js');
+const updateFunction = require('./updateFunction.js');
 
 describe('updateFunction', () => {
   let node, nodeList;

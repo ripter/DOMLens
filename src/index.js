@@ -1,6 +1,6 @@
 const domLens = require('./domLens.js');
 const updateAttributes = require('./updateAttributes.js');
-const updateFunction = require('./updateAttributes.js');
+const updateFunction = require('./updateFunction.js');
 
 module.exports = {
   domLens,

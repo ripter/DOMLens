@@ -1,6 +1,6 @@
 {
   "name": "@ripter/domlens",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Update the DOM with CSS selectors",
   "main": "src/index.js",
   "scripts": {
