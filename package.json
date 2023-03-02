@@ -27,7 +27,7 @@
     "jsdoc-to-markdown": "^3.0.0",
     "jsdom": "^9.12.0",
     "jsdom-global": "^2.1.1",
-    "mocha": "^5.2.0",
+    "mocha": "^10.2.0",
     "plop": "^1.7.4"
   }
 }
